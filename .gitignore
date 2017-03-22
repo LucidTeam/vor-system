@@ -1,0 +1,7 @@
+# Ignore IntelliJ Project files.
+*.iml
+.idea/
+
+# If on a Mac, ignore DS_Store.
+.DS_Store
+
