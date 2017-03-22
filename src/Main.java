@@ -12,6 +12,7 @@ public class Main
       double currentLoc;
       double diff;
       String cdiPosition;
+      String flag;
 
       System.out.println("VHF Omni Directional Radio Range(VOR) System");
       System.out.print("Enter desired obs: ");
@@ -21,11 +22,13 @@ public class Main
 
       diff = getDifference(obsDesired, currentLoc);
       cdiPosition = getCDI(obsDesired, currentLoc, diff);
+      flag = getFlag(diff);
 
 
 //      System.out.println("You need to set your course by " + diff + " to get your get your OBS");
       System.out.println("Desired Radial: " + obsDesired);
       System.out.println("Intercepted Radial: " + currentLoc);
+      System.out.println("Traveling " + flag + " VOR Station");
       System.out.println(cdiPosition);
 
 
@@ -75,5 +78,11 @@ public class Main
         if (diff > 1) return "Deflection: 1 dot right";
       }
       return "Deflection: Centered";
+    }
+
+    public static String getFlag(double diff)
+    {
+      if (diff <= 90) return "TO";
+      return "FROM";
     }
 }
