@@ -10,7 +10,10 @@ public class Main
 
       double obsDesired;
       double currentLoc;
-      double diff;
+      double diff1;
+      double diff2;
+      String cdiPosition;
+      String flag;
 
       System.out.println("VHF Omni Directional Radio Range(VOR) System");
       System.out.print("Enter desired obs: ");
@@ -18,9 +21,28 @@ public class Main
       System.out.print("Enter current location: ");
       currentLoc = input.nextInt();
 
-      diff = getDifference(obsDesired, currentLoc);
+      System.out.println("Desired Radial: " + obsDesired);
 
-      System.out.println("You need to set your course by " + diff + " to get your get your OBS");
+      // Normal
+      diff1 = getDifference(obsDesired, currentLoc);
+
+      // opposite
+      if (obsDesired - 180 < 0) diff2 = getDifference(obsDesired+180, currentLoc);
+      else diff2 = getDifference(obsDesired-180, currentLoc);
+      if (diff1 > diff2) {
+        diff1 = diff2;
+        if (obsDesired - 180 < 0) obsDesired += 180;
+        else obsDesired -= 180;
+      }
+
+      cdiPosition = getCDI(obsDesired, currentLoc, diff1);
+      flag = getFlag(diff1);
+
+      System.out.println("Intercepted Radial: " + currentLoc);
+      System.out.println("Traveling " + flag + " VOR Station");
+      System.out.println(cdiPosition);
+      System.out.println(diff1);
+
 
 
     }
@@ -36,7 +58,7 @@ public class Main
 
         else
 
-          return (-1 * Math.abs(obs - currentPos));
+          return (Math.abs(obs - currentPos));
       }
 
       else
@@ -47,7 +69,32 @@ public class Main
 
         else
 
-          return (-1 * Math.abs(currentPos - obs));
+          return (Math.abs(currentPos - obs));
       }
+    }
+
+    public static String getCDI(double obsDesired, double currentLoc, double diff)
+    {
+      if (obsDesired > currentLoc) {
+          if (diff > 9) return "Deflection: Full Left";
+          if (diff > 7) return "Deflection: 4 dots left";
+          if (diff > 5) return "Deflection: 3 dots left";
+          if (diff > 3) return "Deflection: 2 dots left";
+          if (diff > 1) return "Deflection: 1 dot left";
+      }
+      else if (obsDesired < currentLoc) {
+        if (diff > 9) return "Deflection: Full Right";
+        if (diff > 7) return "Deflection: 4 dots right";
+        if (diff > 5) return "Deflection: 3 dots right";
+        if (diff > 3) return "Deflection: 2 dots right";
+        if (diff > 1) return "Deflection: 1 dot right";
+      }
+      return "Deflection: Centered";
+    }
+
+    public static String getFlag(double diff)
+    {
+      if (diff <= 90) return "TO";
+      return "FROM";
     }
 }
