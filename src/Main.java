@@ -10,7 +10,8 @@ public class Main
 
       double obsDesired;
       double currentLoc;
-      double diff;
+      double diff1;
+      double diff2;
       String cdiPosition;
       String flag;
 
@@ -20,16 +21,27 @@ public class Main
       System.out.print("Enter current location: ");
       currentLoc = input.nextInt();
 
-      diff = getDifference(obsDesired, currentLoc);
-      cdiPosition = getCDI(obsDesired, currentLoc, diff);
-      flag = getFlag(diff);
-
-
-//      System.out.println("You need to set your course by " + diff + " to get your get your OBS");
       System.out.println("Desired Radial: " + obsDesired);
+
+      // Normal
+      diff1 = getDifference(obsDesired, currentLoc);
+
+      // opposite
+      if (obsDesired - 180 < 0) diff2 = getDifference(obsDesired+180, currentLoc);
+      else diff2 = getDifference(obsDesired-180, currentLoc);
+      if (diff1 > diff2) {
+        diff1 = diff2;
+        if (obsDesired - 180 < 0) obsDesired += 180;
+        else obsDesired -= 180;
+      }
+
+      cdiPosition = getCDI(obsDesired, currentLoc, diff1);
+      flag = getFlag(diff1);
+
       System.out.println("Intercepted Radial: " + currentLoc);
       System.out.println("Traveling " + flag + " VOR Station");
       System.out.println(cdiPosition);
+      System.out.println(diff1);
 
 
 
