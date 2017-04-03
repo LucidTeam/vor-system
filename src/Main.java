@@ -8,18 +8,48 @@ public class Main
 
       Scanner input = new Scanner(System.in);
 
-      double obsDesired;
-      double currentLoc;
+      double obsDesired = 0;
+      double currentLoc = 0;
       double diff1;
       double diff2;
       String cdiPosition;
       String flag;
+	  boolean gettingOBS = true;
+	  boolean gettingLoc = true
 
       System.out.println("VHF Omni Directional Radio Range(VOR) System");
-      System.out.print("Enter desired obs: ");
-      obsDesired = input.nextInt();
-      System.out.print("Enter current location: ");
-      currentLoc = input.nextInt();
+
+	  while(gettingOBS) //Continues looping until a valid OBS is entered
+	  {
+		System.out.print("Enter desired obs: ");
+		try
+		{
+			obsDesired = input.nextInt(); //Get input
+			gettingOBS = false; //Switch flag if valid input
+		}
+		catch (inputMismatchError ime) //Catch inputMismatchError
+		{
+			System.out.println("Please enter a valid OBS as a number"); //Prompt for proper input
+			gettingOBS = true; //Switch flag to loop again
+			String trash = input.nextLine();
+		}
+	  }
+
+      while(gettingLoc) //Continues looping until a valid location is entered
+	  {
+		System.out.print("Enter current location: ");
+		try
+		{
+			currentLoc = input.nextInt(); //Get input
+			gettingLoc = false; //Switch flag if valid input
+		}
+		catch (inputMismatchError ime) //Catch inputMismatchError
+		{
+			System.out.println("Please enter a valid location as a number"); //Prompt for proper input
+			gettingLoc = true; //Switch flag to loop again
+			String trash = input.nextLine();
+		}
+	  }
 
       System.out.println("Desired Radial: " + obsDesired);
 
