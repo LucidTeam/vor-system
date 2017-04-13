@@ -3,7 +3,6 @@ import java.util.InputMismatchException;
 
 public class Main
 {
-
     public static void main(String[] args)
     {
 
@@ -78,55 +77,55 @@ public class Main
     }
 
     // VOR functions
-    public static double getDifference(double obs, double currentPos)
-    {
-      if (obs < currentPos)
+      public static double getDifference(double obs, double currentPos)
       {
-        if (Math.abs(currentPos - obs) > 180)
+        if (obs < currentPos)
+        {
+          if (Math.abs(currentPos - obs) > 180)
 
-          return Math.abs((360 - currentPos) + obs);
+            return Math.abs((360 - currentPos) + obs);
+
+          else
+
+            return (Math.abs(obs - currentPos));
+        }
 
         else
+        {
+          if (Math.abs(obs - currentPos) > 180)
 
-          return (Math.abs(obs - currentPos));
+            return Math.abs((360 - obs) + currentPos);
+
+          else
+
+            return (Math.abs(currentPos - obs));
+        }
       }
 
-      else
+      public static String getCDI(double obsDesired, double currentLoc, double diff) // Get needle deflection
       {
-        if (Math.abs(obs - currentPos) > 180)
-
-          return Math.abs((360 - obs) + currentPos);
-
-        else
-
-          return (Math.abs(currentPos - obs));
+        if (diff == 90) return "Signal is Bad.";
+        if (obsDesired > currentLoc) {
+            if (diff > 9) return "Deflection: Full Left. Signal is Good.";
+            if (diff > 7) return "Deflection: 4 dots left. Signal is Good.";
+            if (diff > 5) return "Deflection: 3 dots left. Signal is Good.";
+            if (diff > 3) return "Deflection: 2 dots left. Signal is Good.";
+            if (diff > 1) return "Deflection: 1 dot left. Signal is Good.";
+        }
+        else if (obsDesired < currentLoc) {
+          if (diff > 9) return "Deflection: Full Right. Signal is Good.";
+          if (diff > 7) return "Deflection: 4 dots right. Signal is Good.";
+          if (diff > 5) return "Deflection: 3 dots right. Signal is Good.";
+          if (diff > 3) return "Deflection: 2 dots right. Signal is Good.";
+          if (diff > 1) return "Deflection: 1 dot right. Signal is Good.";
+        }
+        return "Deflection: Centered. Signal is Good.";
       }
-    }
 
-    public static String getCDI(double obsDesired, double currentLoc, double diff) // Get needle deflection
-    {
-      if (diff == 90) return "Signal is Bad.";
-      if (obsDesired > currentLoc) {
-          if (diff > 9) return "Deflection: Full Left. Signal is Good.";
-          if (diff > 7) return "Deflection: 4 dots left. Signal is Good.";
-          if (diff > 5) return "Deflection: 3 dots left. Signal is Good.";
-          if (diff > 3) return "Deflection: 2 dots left. Signal is Good.";
-          if (diff > 1) return "Deflection: 1 dot left. Signal is Good.";
+      public static String getFlag(double diff)
+      {
+        if (diff <= 90) return "TO";
+        return "FROM";
       }
-      else if (obsDesired < currentLoc) {
-        if (diff > 9) return "Deflection: Full Right. Signal is Good.";
-        if (diff > 7) return "Deflection: 4 dots right. Signal is Good.";
-        if (diff > 5) return "Deflection: 3 dots right. Signal is Good.";
-        if (diff > 3) return "Deflection: 2 dots right. Signal is Good.";
-        if (diff > 1) return "Deflection: 1 dot right. Signal is Good.";
-      }
-      return "Deflection: Centered. Signal is Good.";
-    }
-
-    public static String getFlag(double diff)
-    {
-      if (diff <= 90) return "TO";
-      return "FROM";
-    }
     // End VOR functions
 }
